@@ -1,61 +1,68 @@
-import violations from './ressources/violations';
 import { Output } from './output';
+import { Answer, AnswerType } from './answer';
+import {
+    cleanDoubleRepeat,
+    cleanRepeat,
+    convertRegional,
+    isViolation,
+    needCorrection,
+    replace,
+} from './functions';
 
-export default function main(input: string): string {
+import tchars from './ressources/t-chars';
+import hchars from './ressources/h-chars';
+import echars from './ressources/e-chars';
+import ochars from './ressources/o-chars';
+import emptyChars from './ressources/empty-chars';
+import specialsChars from './ressources/specials-chars';
+
+export default function main(input: string, from: string = ''): Answer {
+    const answer = new Answer(input, from);
     const output = new Output();
 
     // On sépare tous les mots en entré
     const words = input.split(' ');
 
     // Est-ce que de base, un des mots est interdit ?
-    for (const w in words) {
-        if (isViolation(w)) {
+    for (const w of words) {
+        const cleaned = cleanMessage(w);
+
+        if (cleaned == undefined) continue;
+
+        if (isViolation(cleaned)) {
             // On ajoute en sortie la violation
             output.violate();
-        }
+            answer.type = AnswerType.Violation;
+        } else if (needCorrection(cleaned)) {
+            output.add(cleaned);
 
-        if (needCorrection(w)) {
-            output.add(w);
+            if (answer.type != AnswerType.Violation) {
+                answer.type = AnswerType.Correction;
+            }
         }
     }
 
-    return output.compute();
+    answer.message = output.compute();
+    return answer;
 }
 
-/**
- * Détermine si l'input est un texte interdit
- * @param input Texte à vérifier
- * @returns Est-ce que l'input est un mot de violation
- */
-function isViolation(input: string): boolean {
-    for (const v in violations) {
-        if (input.toLowerCase() == v) return true;
+function cleanMessage(input: string): string {
+    let output = input;
+
+    output = convertRegional(output);
+    output = replace(output, tchars, 't');
+    output = replace(output, hchars, 'h');
+    output = replace(output, echars, 'e');
+    output = replace(output, ochars, 'o');
+
+    output = replace(output, emptyChars, '');
+
+    for (const s of specialsChars) {
+        output = replace(output, [s[0]], s[1]);
     }
 
-    return false;
+    output = cleanRepeat(output);
+    output = cleanDoubleRepeat(output);
+
+    return output;
 }
-
-/**
- * Détermine si l'input contient un texte interdit
- * @param input Texte à vérifier
- * @returns Est-ce que l'input contient un mot de violation
- */
-function needCorrection(input: string): boolean {
-    return input.toLowerCase().indexOf('theo') > -1;
-}
-
-// On suppr tous les espace
-// On clean tout les charactère
-// Est-ce qu'on trouve théo ?
-
-// On clean les répétition simple & double
-// Est-ce qu'un trouve théo ?
-
-// Si oui on isole chaque mot
-
-/*
-
-Pour "t h e o"
-
-
-*/

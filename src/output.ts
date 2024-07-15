@@ -1,14 +1,12 @@
 import correction from './ressources/output/corrections';
 import liaisons from './ressources/output/liaisons';
-import violations from './ressources/violations';
+import violations from './ressources/output/violations';
 
 export class Output {
     private items: Array<string> = [];
     private hasViolation: boolean = false;
 
     public compute(): string {
-        if (this.items.length == 0) return '';
-
         const lines: Array<string> = [];
 
         if (this.hasViolation) {
@@ -45,7 +43,7 @@ export class Output {
 
     private getCorrection(text: string): string {
         const c = this.randomOf(correction);
-        return c.replace('$1', text);
+        return c.replace('$1', text.replace('theo', 'teo'));
     }
 
     private randomOf(arr: Array<string>): string {
