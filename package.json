@@ -1,0 +1,18 @@
+{
+    "name": "no-more-hash-2",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node ./dist/test.js",
+        "dev": "tsc --project ./tsconfig.conf -w",
+        "build": "tsc --project ./tsconfig.conf",
+        "postinstall": "tsc"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "discord.js": "^14.15.3",
+        "dotenv": "^16.4.5"
+    }
+}
