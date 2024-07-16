@@ -70,5 +70,6 @@ export default [
     'é',
     'ê',
     '3',
+    'aie',
     'ai',
 ];

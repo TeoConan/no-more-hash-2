@@ -1,10 +1,12 @@
 import correction from './ressources/output/corrections';
 import liaisons from './ressources/output/liaisons';
 import violations from './ressources/output/violations';
+import tricks from './ressources/output/tricks';
 
 export class Output {
     private items: Array<string> = [];
     private hasViolation: boolean = false;
+    private hasTrick: boolean = false;
 
     public compute(): string {
         const lines: Array<string> = [];
@@ -21,16 +23,22 @@ export class Output {
                 text = [this.getLiaison(), text].join(' ');
             }
 
-            text = text.charAt(0).toUpperCase() + text.slice(1);
+            text = this.capitalize(text);
 
             lines.push(text);
+        }
+
+        if (this.hasTrick) {
+            let t = this.getTrick();
+            t = lines.length > 0 ? 'Et ' + t : this.capitalize(t);
+            lines.push(t);
         }
 
         return lines.join('\n');
     }
 
     public add(text: string): void {
-        this.items.push(text);
+        if (this.items.indexOf(text) == -1) this.items.push(text);
     }
 
     private getLiaison(): string {
@@ -39,6 +47,14 @@ export class Output {
 
     private getViolation(): string {
         return this.randomOf(violations);
+    }
+
+    private getTrick(): string {
+        return this.randomOf(tricks);
+    }
+
+    private capitalize(text: string): string {
+        return text.charAt(0).toUpperCase() + text.slice(1);
     }
 
     private getCorrection(text: string): string {
@@ -52,5 +68,9 @@ export class Output {
 
     public violate(status = true) {
         this.hasViolation = status;
+    }
+
+    public trick(status = true) {
+        this.hasTrick = status;
     }
 }

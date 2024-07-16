@@ -1,1 +1,5 @@
-export default [['🍵', 'thé']];
+export default [
+    ['🍵', 'thé'],
+    ['tehaut', 'theo'],
+    ['tehau', 'theo'],
+];

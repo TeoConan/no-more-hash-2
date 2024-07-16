@@ -1,1 +1,1 @@
-export default ['theo', 'theho', 'oeht'];
+export default ['theo', 'theho', 'teho', 'oeht'];

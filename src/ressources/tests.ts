@@ -1,43 +1,45 @@
 import { AnswerType } from '../answer';
 
 export default [
+    ['t*eo', AnswerType.None],
+    ['ttTthéééèèèhéhéhéhhohohohoho', AnswerType.Violation],
+    ['Téhaut', AnswerType.Violation],
+    ['🍵 💧', AnswerType.Trick],
+    [
+        'je devrais faire un bot discord qui supprime tous les messages avec "théo"',
+        AnswerType.Violation,
+    ],
+    ['Taie haut', AnswerType.Trick],
     ["salut théo sa va ? j'ai une thèorie pour toi", AnswerType.Violation],
-    ['', -1],
+    ['t h e o', AnswerType.Trick],
     ["J'arrive un peu plus tard", AnswerType.None],
     ['T(-)eo', AnswerType.Violation],
-    ['Taie haut', AnswerType.Violation],
     ['T|-|eo', AnswerType.Violation],
     ['The∅', AnswerType.Violation],
-    ['🍵 💧', AnswerType.Violation],
     ['T|-|eo', AnswerType.Violation],
     ['T🪓eo', AnswerType.Violation],
-    ['Htéo', AnswerType.Violation],
-    ['Téoh', AnswerType.Violation],
+    ['Htéo', AnswerType.None],
+    ['Téoh', AnswerType.None],
     ['mdr ça a même plus de sens ça', AnswerType.None],
     ['Mais il y a un H 😜', AnswerType.None],
     ['théheau', AnswerType.Violation],
     ['theau', AnswerType.Violation],
     ['Thaut', AnswerType.None],
-    ['Téhaut', AnswerType.Violation],
-    ['TTThèhèhèhèhèhèhéhéhéhé0', AnswerType.Violation],
     ['T:regional_indicator_h:eo', AnswerType.Violation],
     [
         'hello :regional_indicator_t::regional_indicator_h: :regional_indicator_e::regional_indicator_o:',
-        1,
+        AnswerType.Trick,
     ],
     ['t`heo', AnswerType.Violation],
     ['bon ok tu peux écrire 1x théo sans suppr', AnswerType.Violation],
-    [
-        'je devrais faire un bot discord qui supprime tous les messages avec "théo"',
-        AnswerType.Violation,
-    ],
+
     [
         'https://images-ext-1.discordapp.net/external/2mxNq3mqCvSzBIOWlEe2QhrYEJ9slN0GfJJ3sJRR2vU/https/media.tenor.com/uBr8BS_BD5QAAAPo/theo-tweetpark.mp4',
-        AnswerType.Violation,
+        AnswerType.None,
     ],
     [
         'https://images-ext-1.discordapp.net/external/s09CM84U07rag6-int43u35SRCGU9qK2yuikd9uP_Ns/https/media.tenor.com/tq4Foo72P-MAAAPo/theo-theo-hernandez.mp4',
-        AnswerType.Violation,
+        AnswerType.None,
     ],
     [
         'théorie théo théorie théorie théorie théorie théorie théorie',
@@ -63,10 +65,9 @@ export default [
     ['Théo', AnswerType.Violation],
     ['the0', AnswerType.Violation],
     ['t.h.e.o', AnswerType.Violation],
-    ['t*eo', AnswerType.Violation],
     ['', AnswerType.None],
     [
         "Petite séance d'osthéopathie avec Mr. Bra de son prénom Ken",
-        AnswerType.None,
+        AnswerType.Correction,
     ],
 ];

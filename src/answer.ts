@@ -17,5 +17,6 @@ export enum AnswerType {
     None,
     Violation,
     Correction,
+    Trick,
     Provocation,
 }

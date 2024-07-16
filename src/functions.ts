@@ -6,10 +6,8 @@ import violations from './ressources/violations';
  * @returns Est-ce que l'input est un mot de violation
  */
 export function isViolation(input: string): boolean {
-    for (const v of violations) {
-        if (input != undefined && input.toLowerCase() == v) return true;
-    }
-
+    if (input == undefined) return false;
+    for (const v of violations) if (input.toLowerCase() == v) return true;
     return false;
 }
 
@@ -30,7 +28,9 @@ export function needCorrection(input: string): boolean {
  * @returns Modified text
  */
 export function replace(text: string, arr: Array<any>, by: string): string {
-    for (var r of arr) text = text.replace(r, by);
+    for (const r of arr) {
+        while (text.indexOf(r) != -1) text = text.replace(r, by);
+    }
     return text;
 }
 
