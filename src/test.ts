@@ -8,6 +8,7 @@ const expected: number[] = Array(Object.keys(AnswerType).length / 2).fill(0);
 const result: number[] = Array(Object.keys(AnswerType).length / 2).fill(0);
 
 // On compte les différents types de tests qui doivent être réalisé
+//@ts-ignore
 for (let i = 0; i < tests.length; i++) expected[tests[i][1]] += 1;
 // On compte le total de tests à réaliser
 const expectedTotal = expected.reduce((acc, v) => acc + v, 0);
@@ -15,7 +16,8 @@ const expectedTotal = expected.reduce((acc, v) => acc + v, 0);
 function runTests() {
     for (const t of tests) {
         //* debug
-        //if (t[1] == -1) break;
+        //@ts-ignore
+        if (t[1] == -1) break;
 
         // On traite le test
         const answer = main(t[0].toString());

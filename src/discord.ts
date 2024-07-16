@@ -1,7 +1,11 @@
+// Configuration du fichier .env
 require('dotenv').config();
 
 import { Client, GatewayIntentBits } from 'discord.js';
+import main from '.';
+import { AnswerType } from './answer';
 
+// Configuration des autorisations du client sur le channel
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -11,6 +15,7 @@ const client = new Client({
     ],
 });
 
+// Callback quand le bot est prêt
 client.on('ready', () => {
     const inviteUrl = `https://discord.com/oauth2/authorize?client_id=${client.user?.id}&permissions=11264&scope=bot`;
 
@@ -19,11 +24,28 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user?.tag}`);
 });
 
+// Callback à la réception d'un message
 client.on('messageCreate', async (msg) => {
     try {
         if (msg.author.bot) return;
 
-        const message = msg.content;
+        const answer = main(msg.content, msg.author.displayName);
+
+        switch (answer.type) {
+            case AnswerType.Correction:
+                msg.react('😑');
+                break;
+
+            case AnswerType.Violation:
+                msg.react('😡');
+                break;
+
+            case AnswerType.Trick:
+                msg.react('🤡');
+                break;
+        }
+
+        if (answer.message != '') msg.reply(answer.message);
     } catch (e) {
         console.error(e);
     }

@@ -34,6 +34,7 @@ export class Output {
             lines.push(t);
         }
 
+        if (lines.length == 0) return '';
         return lines.join('\n');
     }
 
