@@ -1,9 +1,25 @@
 import { AnswerType } from '../answer';
 
 export default [
+    ['Téhaut', AnswerType.Trick],
+    ['théheau', AnswerType.Trick],
+    ['theau', AnswerType.Trick],
+    //['', -1],
+    ['Շђé๏', AnswerType.Violation],
+    ['ȶɦéօ', AnswerType.Violation],
+    ['ƬΉéӨ', AnswerType.Violation],
+    ['𝒯𝓗𝓔𝓞', AnswerType.Violation],
+    ['gautheo', AnswerType.Correction],
+    ['丅卄éo', AnswerType.Violation],
+    ['ƚԋéσ', AnswerType.Violation],
+    [':tea: :ocean:', AnswerType.Trick],
+    [':tea: :sweat_drops:', AnswerType.Trick],
+    [':tea: :ocean:', AnswerType.Trick],
+    ['🍵 🌊', AnswerType.Trick],
+    ['🍵 💦', AnswerType.Trick],
+    ['🍵 🚰', AnswerType.Trick],
     ['t*eo', AnswerType.None],
     ['ttTthéééèèèhéhéhéhhohohohoho', AnswerType.Violation],
-    ['Téhaut', AnswerType.Violation],
     ['🍵 💧', AnswerType.Trick],
     [
         'je devrais faire un bot discord qui supprime tous les messages avec "théo"',
@@ -22,8 +38,7 @@ export default [
     ['Téoh', AnswerType.None],
     ['mdr ça a même plus de sens ça', AnswerType.None],
     ['Mais il y a un H 😜', AnswerType.None],
-    ['théheau', AnswerType.Violation],
-    ['theau', AnswerType.Violation],
+
     ['Thaut', AnswerType.None],
     ['T:regional_indicator_h:eo', AnswerType.Violation],
     [

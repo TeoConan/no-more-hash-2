@@ -72,4 +72,5 @@ export default [
     '3',
     'aie',
     'ai',
+    '𝓔',
 ];

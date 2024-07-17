@@ -28,6 +28,7 @@ export function needCorrection(input: string): boolean {
  * @returns Modified text
  */
 export function replace(text: string, arr: Array<any>, by: string): string {
+    if (text == undefined || text == '') return text;
     for (const r of arr) {
         while (text.indexOf(r) != -1) text = text.replace(r, by);
     }
