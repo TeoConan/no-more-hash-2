@@ -2,13 +2,15 @@
 
 no-more-hash-2 est une petite application Discord qui permet d'envoyer un message aux utilisateurs lorsqu'ils écrivent "Théo" avec un "h"
 
-⚠ Ce projet ne fonctionne qu'avec le mot "théo" ⚠️
+⚠️ Ce projet ne fonctionne qu'avec le mot "théo" ⚠️
 
 ## Auteur
 
 -   [@TeoConan](https://github.com/TeoConan)
 
 ## Exemples
+
+![Exemple 1](https://raw.githubusercontent.com/TeoConan/no-more-hash-2/main/.doc/exemple-1.png 'Utilisation principale').
 
 ## Fonctionnement
 
@@ -21,7 +23,9 @@ no-more-hash analyse les mots pour éviter des attaques par homoglyphes, hérit�
 
 ### Provocations
 
-Si l'utilisateur mentionne l'application, celle-ci répondra par gif ou des messages provocant
+Si l'utilisateur mentionne l'application, celle-ci répondra par gif ou des messages provocants
+
+![Exemple 2](https://raw.githubusercontent.com/TeoConan/no-more-hash-2/main/.doc/exemple-2.png 'Provocations').
 
 ## Installation
 
@@ -66,4 +70,4 @@ Invite your bot using this URL: https://discord.com/oauth2/authorize?client_id=<
 Logged in as <bot name>#<tag>
 ```
 
-Et votre projet devrait réagir et répondre aux messages entrants sur les différents channel Discord
+Et votre projet devrait réagir et répondre aux messages entrants sur les différents channels Discord
