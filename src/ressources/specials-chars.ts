@@ -7,6 +7,7 @@ export default [
     ['💧', 'o'],
     ['🚰', 'o'],
     ['🧊', 'o'],
+    ['🪓', 'h'],
     ['aut', 'o'],
     ['au', 'o'],
     ['⬆', 'o'],
@@ -19,4 +20,5 @@ export default [
     [':ocean:', 'o'],
     [':sweat_drops:', 'o'],
     [':potable_water:', 'o'],
+    [':axe:', 'h'],
 ];

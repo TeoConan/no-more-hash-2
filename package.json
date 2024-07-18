@@ -7,7 +7,7 @@
         "start": "node ./dist/test.js",
         "dev": "tsc --project ./tsconfig.conf -w",
         "build": "tsc --project ./tsconfig.conf",
-        "postinstall": "tsc"
+        "prod": "node ./dist/discord.js"
     },
     "author": "",
     "license": "ISC",

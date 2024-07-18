@@ -2,11 +2,13 @@ import correction from './ressources/output/corrections';
 import liaisons from './ressources/output/liaisons';
 import violations from './ressources/output/violations';
 import tricks from './ressources/output/tricks';
+import provocations from './ressources/output/provocations';
 
 export class Output {
     private items: Array<string> = [];
     private hasViolation: boolean = false;
     private hasTrick: boolean = false;
+    private hasProvocation: boolean = false;
 
     public compute(): string {
         const lines: Array<string> = [];
@@ -34,7 +36,11 @@ export class Output {
             lines.push(t);
         }
 
-        if (lines.length == 0) return '';
+        if (lines.length == 0) {
+            if (this.hasProvocation) return this.getProvocation();
+            return '';
+        }
+
         return lines.join('\n');
     }
 
@@ -52,6 +58,10 @@ export class Output {
 
     private getTrick(): string {
         return this.randomOf(tricks);
+    }
+
+    private getProvocation(): string {
+        return this.randomOf(provocations);
     }
 
     private capitalize(text: string): string {
@@ -73,5 +83,9 @@ export class Output {
 
     public trick(status = true) {
         this.hasTrick = status;
+    }
+
+    public provocate(status = true) {
+        this.hasProvocation = status;
     }
 }

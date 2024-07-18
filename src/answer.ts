@@ -3,7 +3,7 @@ export class Answer {
     public time: Date;
     public input: string;
     public message: string;
-    public type: AnswerType;
+    private type: AnswerType;
 
     constructor(input: string, from: string) {
         this.input = input;
@@ -11,12 +11,20 @@ export class Answer {
         this.from = from;
         this.type = AnswerType.None;
     }
+
+    public getType(): AnswerType {
+        return this.type;
+    }
+
+    public setType(type: AnswerType) {
+        if (type > this.type) this.type = type;
+    }
 }
 
 export enum AnswerType {
     None,
-    Violation,
-    Correction,
-    Trick,
     Provocation,
+    Correction,
+    Violation,
+    Trick,
 }

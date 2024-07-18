@@ -27,11 +27,16 @@ client.on('ready', () => {
 // Callback à la réception d'un message
 client.on('messageCreate', async (msg) => {
     try {
+        // Le message provient d'un bot, on skip
         if (msg.author.bot) return;
 
-        const answer = main(msg.content, msg.author.displayName);
+        const answer = main(msg.content, msg.author.id);
 
-        switch (answer.type) {
+        switch (answer.getType()) {
+            case AnswerType.Provocation:
+                msg.react('🤓');
+                break;
+
             case AnswerType.Correction:
                 msg.react('😑');
                 break;

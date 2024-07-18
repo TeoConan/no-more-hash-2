@@ -1,10 +1,11 @@
 import { AnswerType } from '../answer';
 
 export default [
+    ['<@1186434212983746712> test', AnswerType.Provocation],
+    ['', -1],
     ['Téhaut', AnswerType.Trick],
     ['théheau', AnswerType.Trick],
     ['theau', AnswerType.Trick],
-    //['', -1],
     ['Շђé๏', AnswerType.Violation],
     ['ȶɦéօ', AnswerType.Violation],
     ['ƬΉéӨ', AnswerType.Violation],
@@ -33,7 +34,8 @@ export default [
     ['T|-|eo', AnswerType.Violation],
     ['The∅', AnswerType.Violation],
     ['T|-|eo', AnswerType.Violation],
-    ['T🪓eo', AnswerType.Violation],
+    ['T🪓eo', AnswerType.Trick],
+    ['T :axe: eo', AnswerType.Trick],
     ['Htéo', AnswerType.None],
     ['Téoh', AnswerType.None],
     ['mdr ça a même plus de sens ça', AnswerType.None],

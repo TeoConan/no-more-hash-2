@@ -18,24 +18,6 @@
             ],
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen"
-        },
-        {
-            "name": "Run example",
-            "type": "node",
-            "request": "launch",
-            "program": "${workspaceFolder}/dist/example.js",
-            "cwd": "${workspaceFolder}",
-            "runtimeExecutable": "/Users/teo/.nvm/versions/node/v20.9.0/bin/node",
-            "runtimeArgs": [],
-            "env": {
-                "NODE_ENV": "development"
-            },
-            "sourceMaps": true,
-            "outFiles": [
-                "${workspaceFolder}/dist/**/*.js"
-            ],
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen"
         }
     ]
 }

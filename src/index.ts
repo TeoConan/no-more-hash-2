@@ -1,3 +1,6 @@
+// Configuration du fichier .env
+require('dotenv').config();
+
 import { Output } from './output';
 import { Answer, AnswerType } from './answer';
 import {
@@ -27,6 +30,7 @@ export default function main(input: string, from: string = ''): Answer {
     const output = new Output();
     const safeWords: string[] = [];
     const urlRegex = new RegExp(/^http(|s):\/\//);
+    const pinged = input.indexOf(`<@${process.env.APP_ID}>`) != -1;
 
     // On sépare tous les mots en entré
     const words = input.split(' ');
@@ -47,37 +51,34 @@ export default function main(input: string, from: string = ''): Answer {
             case AnswerType.Violation:
                 // Notifier le message de sortie qu'une violation à été trouvée
                 output.violate();
-                answer.type = type;
+                answer.setType(AnswerType.Violation);
                 break;
 
             case AnswerType.Correction:
                 // Ajouter le mot à corriger dans le message de sortie
                 output.add(cleaned);
-                //* todo, improve
-                if (answer.type != AnswerType.Violation) {
-                    answer.type = AnswerType.Correction;
-                }
+                answer.setType(AnswerType.Correction);
                 break;
 
             case AnswerType.None:
                 // Le mot ne correspond à rien, il peut être suspect et sera analysé après
-                //* todo, improve
-                if (
-                    answer.type != AnswerType.Violation &&
-                    answer.type != AnswerType.Correction
-                ) {
-                    answer.type = type;
-                }
+                answer.setType(AnswerType.None);
                 safeWords.push(cleaned);
                 break;
         }
+    }
+
+    // L'utilisateur à ping le bot, on va donc prendre ça comme une provocation
+    if (pinged) {
+        output.provocate(true);
+        answer.setType(AnswerType.Provocation);
     }
 
     // Pour tous les mots qui sont safe, on les assemblent pour vérifier si
     // l'utilisateur n'essaie pas de trick le programme
     if (findSuspectsWords(safeWords) == AnswerType.Trick) {
         output.trick();
-        answer.type = AnswerType.Trick;
+        answer.setType(AnswerType.Trick);
     }
 
     answer.message = output.compute();
