@@ -71,3 +71,7 @@ Logged in as <bot name>#<tag>
 ```
 
 Et votre projet devrait réagir et répondre aux messages entrants sur les différents channels Discord
+
+## Contribution
+
+Si vous avez des idées pour remplir les fichiers dans `./src/ressources/output`, n'hésitez pas à partager vos idées ou faire une pull request 🙂

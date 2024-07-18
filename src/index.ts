@@ -26,11 +26,15 @@ import specialsChars from './ressources/specials-chars';
  * @returns AnswerType
  */
 export default function main(input: string, from: string = ''): Answer {
+    // Réponse à renvoyer
     const answer = new Answer(input, from);
+    // Message à renvoyer
     const output = new Output();
-    const safeWords: string[] = [];
+    // Liste des mots qui seront re-traiter après
     const urlRegex = new RegExp(/^http(|s):\/\//);
+    // Est-ce que le message mentionne le bot ?
     const pinged = input.indexOf(`<@${process.env.APP_ID}>`) != -1;
+    const safeWords: string[] = [];
 
     // On sépare tous les mots en entré
     const words = input.split(' ');
@@ -118,25 +122,39 @@ function validate(input: string): AnswerType {
     return AnswerType.None;
 }
 
+/**
+ * Fusionne les mots "suspects" à savoir trop court et sans problème
+ * pour essayer de trouver une combinaison qui pourrait amener à un "theo"
+ * @param input Liste des mots "safe"
+ * @returns AnswerType
+ */
 function findSuspectsWords(input: string[]): AnswerType {
     let merge = '';
 
+    // Pour chaque mot
     for (let i = 0; i < input.length; i++) {
         let w = input[i];
 
+        // On remplace tous les "specials chars"
         for (const s of specialsChars) {
             w = replace(w, [s[0]], s[1]);
         }
 
+        // On merge le mot courant avec le précedent
         merge += w;
 
+        // Si le mot fait pile la longueur de "theo" on le vérifie
+        //* Les répétitions on déjà été nettoyée précedement
         if (merge.length == 4) {
+            // La violation était "cachée" entre plusieurs mots
             if (validate(merge) == AnswerType.Violation)
                 return AnswerType.Trick;
         }
 
         if (w == undefined || merge == w) continue;
 
+        // Si le merge est plus grand que "theo", alors pas d'inquiètude,
+        // On reset le merge, on recule dans la boucle et on continue les fusions
         if (merge.length > 4) {
             if (i != 0) i--;
             merge = '';

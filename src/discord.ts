@@ -32,6 +32,7 @@ client.on('messageCreate', async (msg) => {
 
         const answer = main(msg.content, msg.author.id);
 
+        // On traite la réponse et on emet une réaction si besoin
         switch (answer.getType()) {
             case AnswerType.Provocation:
                 msg.react('🤓');
@@ -50,6 +51,7 @@ client.on('messageCreate', async (msg) => {
                 break;
         }
 
+        // On renvoie une réponse dans le channel Discord
         if (answer.message != '') msg.reply(answer.message);
     } catch (e) {
         console.error(e);

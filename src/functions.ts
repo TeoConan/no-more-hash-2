@@ -63,9 +63,6 @@ export function cleanDoubleRepeat(text: string): string {
 
     for (let i = 1; i < text.length; i += 2) {
         current2Chars = text.slice(i, i + 2);
-        // TODO For debug
-        //current2Chars = print2Chars(text, i);
-
         if (current2Chars != last2Chars) {
             clean += current2Chars;
             last2Chars = current2Chars;
@@ -73,15 +70,6 @@ export function cleanDoubleRepeat(text: string): string {
     }
 
     return clean;
-}
-
-// TODO for debug
-function print2Chars(msg: string, i: number) {
-    const chars = msg.slice(i, i + 2);
-    const before = msg.slice(0, i);
-    const after = msg.slice(i + 2, msg.length);
-    //console.log(`${before}|${chars}|${after}`);
-    return chars;
 }
 
 /**

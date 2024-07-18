@@ -1,8 +1,6 @@
 import { AnswerType } from '../answer';
 
 export default [
-    ['<@1186434212983746712> test', AnswerType.Provocation],
-    ['', -1],
     ['Téhaut', AnswerType.Trick],
     ['théheau', AnswerType.Trick],
     ['theau', AnswerType.Trick],

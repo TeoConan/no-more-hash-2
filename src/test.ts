@@ -51,6 +51,12 @@ function runTests() {
     }
 }
 
+/**
+ * Transformer un AnswerType en sa première lettre pour l'affichage des tests
+ * @param type AnswerType a transformer en lettre
+ * @returns Première lettre de l'AnswerType
+ * TODO improve
+ */
 function answerTypeAsLetter(type: AnswerType | string | number): string {
     switch (type) {
         case AnswerType.None:
