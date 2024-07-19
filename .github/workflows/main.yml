@@ -16,14 +16,33 @@ jobs:
 
         steps:
             - uses: actions/checkout@v3
+
             - name: Use Node.js ${{ matrix.node-version }}
               uses: actions/setup-node@v3
               with:
                   node-version: ${{ matrix.node-version }}
                   cache: 'npm'
-            - run: npm install
-            - run: npm run build --if-present
-            - uses: actions/upload-artifact@main
+
+            - name: Installation des dépendances
+              run: npm install
+
+            - name: Build du projet Typescript
+              run: npm run build --if-present
+
+            - name: Upload de l'artefact
+              uses: actions/upload-artifact@main
               with:
                   name: dist-artifact
                   path: dist/
+
+            - name: Déployement de l'artefact
+              uses: shivam/ssh-deploy@v1.0.3
+              with:
+                  host: teo@devolution.studio
+                  username: teo
+                  key: ${{ secrets.deploy1 }}
+                  remote_path: /var/www/no-more-hash-2
+                  script: |
+                      cd /var/www/no-more-hash-2
+                      npm install
+                      npm run prod
