@@ -28,7 +28,7 @@ jobs:
               run: npm install
 
             - name: Build du projet Typescript
-              run: npm run build --if-present
+              run: npm run build
 
             - name: Upload de l'artefact
               uses: actions/upload-artifact@main
@@ -46,11 +46,8 @@ jobs:
                   REMOTE_USER: ${{ secrets.REMOTE_USER }}
                   TARGET: ${{ secrets.REMOTE_TARGET }}
                   EXCLUDE: '/node_modules/'
-                  SCRIPT_BEFORE: |
-                      ls -al ${{ secrets.REMOTE_TARGET }}
                   SCRIPT_AFTER: |
-                      ls -al ${{ secrets.REMOTE_TARGET }}
                       echo $RSYNC_STDOUT
                       export PATH=$PATH:${{ secrets.REMOTE_NODE_BIN_FOLDER }}
-                      echo $PATH
+                      npm i
                       pm2 restart nomorehash2
