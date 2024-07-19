@@ -51,5 +51,6 @@ jobs:
                   SCRIPT_AFTER: |
                       ls -al ${{ secrets.REMOTE_TARGET }}
                       echo $RSYNC_STDOUT
-                      ${{ secrets.REMOTE_NODE_BIN_FOLDER }}/pm2 stop nomorehash2
-                      ${{ secrets.REMOTE_NODE_BIN_FOLDER }}/npm run prod
+                      export PATH=$PATH:${{ secrets.REMOTE_NODE_BIN_FOLDER }}
+                      echo $PATH
+                      pm2 restart nomorehash2
