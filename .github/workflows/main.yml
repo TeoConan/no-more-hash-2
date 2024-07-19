@@ -47,11 +47,9 @@ jobs:
                   TARGET: ${{ secrets.REMOTE_TARGET }}
                   EXCLUDE: '/node_modules/'
                   SCRIPT_BEFORE: |
-                      whoami
-                      ls -al
+                      ls -al ${{ secrets.REMOTE_TARGET }}
                   SCRIPT_AFTER: |
-                      whoami
-                      ls -al
+                      ls -al ${{ secrets.REMOTE_TARGET }}
                       echo $RSYNC_STDOUT
                       pm2 stop nomorehash2
                       npm run prod
