@@ -1,7 +1,7 @@
 // Configuration du fichier .env
 require('dotenv').config();
 
-import { Client, GatewayIntentBits } from 'discord.js';
+import { Client, GatewayIntentBits, Message, PartialMessage } from 'discord.js';
 import main from '.';
 import { AnswerType } from './answer';
 
@@ -26,20 +26,26 @@ client.on('ready', () => {
 
 // Callback à la réception d'un message
 client.on('messageCreate', async (msg) => {
-    badMessageReaction(msg)
+    handleMessage(msg);
 });
 
+// Callback à l'update d'un message
 client.on('messageUpdate', async (oldMsg, newMsg) => {
-    if(oldMsg.content === newMsg.content) return;
-    badMessageReaction(newMsg)
-    });
+    if (oldMsg.content === newMsg.content) return;
+    handleMessage(newMsg);
+});
 
-function badMessageReaction(msg){
+/**
+ * Réaction à la réception d'un nouveau message
+ * @param msg Message à traiter
+ * @returns
+ */
+function handleMessage(msg: Message | PartialMessage) {
     try {
-        // Le message provient d'un bot, on skip
-        if (msg.author.bot) return;
+        // Le message provient d'un bot ou est null, on skip
+        if (msg.author == null || msg.content == null || msg.author.bot) return;
 
-        const answer = main(msg.content, msg.author.id);
+        const answer = main(msg.content);
 
         // On traite la réponse et on emet une réaction si besoin
         switch (answer.getType()) {

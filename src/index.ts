@@ -25,9 +25,9 @@ import specialsChars from './ressources/specials-chars';
  * @param from Auteur du message
  * @returns AnswerType
  */
-export default function main(input: string, from: string = ''): Answer {
+export default function main(input: string): Answer {
     // Réponse à renvoyer
-    const answer = new Answer(input, from);
+    const answer = new Answer(input);
     // Message à renvoyer
     const output = new Output();
     // Liste des mots qui seront re-traiter après
