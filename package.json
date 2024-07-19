@@ -6,7 +6,7 @@
     "scripts": {
         "start": "node ./dist/test.js",
         "dev": "./node_modules/typescript/bin/tsc --project ./tsconfig.conf -w",
-        "build": "./node_modules/typescript/bin/tsc --project ./tsconfig.conf",
+        "build": "./node_modules/typescript/bin/tsc --project ./tsconfig.prod.conf",
         "prod": "pm2 start ./dist/discord.js --name nomorehash2"
     },
     "author": "",
@@ -14,6 +14,8 @@
     "dependencies": {
         "discord.js": "^14.15.3",
         "dotenv": "^16.4.5",
-        "typescript": "^5.3.3"
+        "typescript": "^5.3.3",
+        "uglify-js": "^3.19.0",
+        "uglifyjs-folder": "^3.3.0"
     }
 }
