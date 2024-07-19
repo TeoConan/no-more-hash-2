@@ -26,6 +26,15 @@ client.on('ready', () => {
 
 // Callback à la réception d'un message
 client.on('messageCreate', async (msg) => {
+    badMessageReaction(msg)
+});
+
+client.on('messageUpdate', async (oldMsg, newMsg) => {
+    if(oldMsg.content === newMsg.content) return;
+    badMessageReaction(newMsg)
+    });
+
+function badMessageReaction(msg){
     try {
         // Le message provient d'un bot, on skip
         if (msg.author.bot) return;
@@ -56,6 +65,6 @@ client.on('messageCreate', async (msg) => {
     } catch (e) {
         console.error(e);
     }
-});
+}
 
 client.login(process.env.CLIENT_TOKEN);
