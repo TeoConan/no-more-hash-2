@@ -1,3 +1,5 @@
+import { Problem, ProblemArray } from './problem';
+
 /**
  * Classe Answer, permet de transférer des informations
  * après traitement du texte, comme par le message, le type
@@ -7,34 +9,31 @@ export class Answer {
     public time: Date;
     public input: string;
     public message: string;
-    private type: AnswerType;
+    public problems: ProblemArray;
 
-    constructor(input: string) {
+    constructor(input: string, problems: ProblemArray) {
         this.input = input;
         this.time = new Date();
-        this.type = AnswerType.None;
+        this.problems = problems;
     }
 
-    public getType(): AnswerType {
-        return this.type;
-    }
+    public getReaction(): string {
+        // On traite la réponse et on emet une réaction si besoin
+        switch (this.problems.getWorst()) {
+            case Problem.Provocation:
+                return '🤓';
 
-    /**
-     * Permet de définir un niveau supérieur de AnswerType
-     * @param type AnswerType
-     */
-    public setType(type: AnswerType) {
-        if (type > this.type) this.type = type;
-    }
-}
+            case Problem.Correction:
+                return '😑';
 
-/**
- * Les différentes types de réponse possible
- */
-export enum AnswerType {
-    None, // Aucuns soucis détecté
-    Provocation, // Le bot à été ping, on pourrait le provoquer en retour
-    Correction, // Une ou plusieurs mots on besoin d'une correction
-    Violation, // Le message contient un "théo"
-    Trick, // L'utilisateur à essayer de cacher un "théo"
+            case Problem.Violation:
+                return '😡';
+
+            case Problem.Trick:
+                return '🤡';
+
+            case Problem.BadName:
+                return '💩';
+        }
+    }
 }

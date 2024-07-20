@@ -3,7 +3,6 @@ require('dotenv').config();
 
 import { Client, GatewayIntentBits, Message, PartialMessage } from 'discord.js';
 import main from '.';
-import { AnswerType } from './answer';
 
 // Configuration des autorisations du client sur le channel
 const client = new Client({
@@ -45,26 +44,11 @@ function handleMessage(msg: Message | PartialMessage) {
         // Le message provient d'un bot ou est null, on skip
         if (msg.author == null || msg.content == null || msg.author.bot) return;
 
-        const answer = main(msg.content);
+        const answer = main(msg.content, msg.author.displayName);
 
         // On traite la réponse et on emet une réaction si besoin
-        switch (answer.getType()) {
-            case AnswerType.Provocation:
-                msg.react('🤓');
-                break;
-
-            case AnswerType.Correction:
-                msg.react('😑');
-                break;
-
-            case AnswerType.Violation:
-                msg.react('😡');
-                break;
-
-            case AnswerType.Trick:
-                msg.react('🤡');
-                break;
-        }
+        const react = answer.getReaction();
+        if (react != '') msg.react(react);
 
         // On renvoie une réponse dans le channel Discord
         if (answer.message != '') msg.reply(answer.message);

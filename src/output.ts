@@ -3,6 +3,8 @@ import liaisons from './ressources/output/liaisons';
 import violations from './ressources/output/violations';
 import tricks from './ressources/output/tricks';
 import provocations from './ressources/output/provocations';
+import name from './ressources/output/name';
+import { Problem, ProblemArray } from './problem';
 
 /**
  * La classe Output permet de générer un message semi-aléatoire
@@ -11,13 +13,12 @@ import provocations from './ressources/output/provocations';
 export class Output {
     // Liste des corrections à afficher dans le message de sortie
     private corrections: Array<string> = [];
+    // Liste des problèmes du message
+    public problems: ProblemArray;
 
-    // Est-ce qu'il y a eu une violation ?
-    private hasViolation: boolean = false;
-    // Est-ce qu'il y a eu une tentative de trick ?
-    private hasTrick: boolean = false;
-    // Est-ce qu'il y aura une provocation ?
-    private hasProvocation: boolean = false;
+    constructor(problems: ProblemArray) {
+        this.problems = problems;
+    }
 
     /**
      * Générer le message final à envoyer
@@ -27,7 +28,7 @@ export class Output {
         const lines: Array<string> = [];
 
         // Afficher ou non un header pour la violation
-        if (this.hasViolation) {
+        if (this.problems.has(Problem.Violation)) {
             lines.push(this.getViolation());
         }
 
@@ -48,15 +49,23 @@ export class Output {
         }
 
         // Si l'utilisateur tente de trick, on le notifie
-        if (this.hasTrick) {
+        if (this.problems.has(Problem.Trick)) {
             let t = this.getTrick();
             t = lines.length > 0 ? 'Et ' + t : this.capitalize(t);
             lines.push(t);
         }
 
+        // Si l'utilisateur s'appelle "Théo"
+        if (this.problems.has(Problem.BadName)) {
+            let n = this.getName();
+            n = lines.length > 0 ? 'Et aussi, ' + n : this.capitalize(n);
+            lines.push(n);
+        }
+
         // Si aucuns problèmes n'ont été trouvé, on peut provoquer
         if (lines.length == 0) {
-            if (this.hasProvocation) return this.getProvocation();
+            if (this.problems.has(Problem.Provocation))
+                return this.getProvocation();
             return '';
         }
 
@@ -67,32 +76,8 @@ export class Output {
      * Ajouter une correction à afficher dans le message final
      * @param text Le texte à corriger
      */
-    public add(text: string): void {
+    public addCorrection(text: string): void {
         if (this.corrections.indexOf(text) == -1) this.corrections.push(text);
-    }
-
-    /**
-     * Signaler une violation dans le texte
-     * @param status Violation présente
-     */
-    public violate(status = true) {
-        this.hasViolation = status;
-    }
-
-    /**
-     * Signaler un trick dans le texte
-     * @param status Trick présent
-     */
-    public trick(status = true) {
-        this.hasTrick = status;
-    }
-
-    /**
-     * Émettre une provocation s'il n'y a pas d'autre soucis dans le texte
-     * @param status Afficher une provocation
-     */
-    public provocate(status = true) {
-        this.hasProvocation = status;
     }
 
     // Fonctions privées
@@ -110,6 +95,10 @@ export class Output {
 
     private getProvocation(): string {
         return this.randomOf(provocations);
+    }
+
+    private getName(): string {
+        return this.randomOf(name);
     }
 
     private getCorrection(text: string): string {

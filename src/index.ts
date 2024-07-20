@@ -2,7 +2,7 @@
 require('dotenv').config();
 
 import { Output } from './output';
-import { Answer, AnswerType } from './answer';
+import { Answer } from './answer';
 import {
     cleanDoubleRepeat,
     cleanRepeat,
@@ -18,23 +18,22 @@ import echars from './ressources/e-chars';
 import ochars from './ressources/o-chars';
 import emptyChars from './ressources/empty-chars';
 import specialsChars from './ressources/specials-chars';
+import { Problem, ProblemArray } from './problem';
 
 /**
  * Traitement principal du message reçu
  * @param input Message à traiter en entré
  * @param from Auteur du message
- * @returns AnswerType
+ * @returns Problem
  */
-export default function main(input: string): Answer {
-    // Réponse à renvoyer
-    const answer = new Answer(input);
-    // Message à renvoyer
-    const output = new Output();
+export default function main(input: string, from: string): Answer {
     // Liste des mots qui seront re-traiter après
     const urlRegex = new RegExp(/^http(|s):\/\//);
     // Est-ce que le message mentionne le bot ?
     const pinged = input.indexOf(`<@${process.env.APP_ID}>`) != -1;
     const safeWords: string[] = [];
+
+    const problems: ProblemArray = new ProblemArray();
 
     // On sépare tous les mots en entré
     const words = input.split(' ');
@@ -51,40 +50,32 @@ export default function main(input: string): Answer {
         // On regarde si le mot à besoin d'une correction ou renvoie une violation
         const type = validate(cleaned);
 
-        switch (type) {
-            case AnswerType.Violation:
-                // Notifier le message de sortie qu'une violation à été trouvée
-                output.violate();
-                answer.setType(AnswerType.Violation);
-                break;
-
-            case AnswerType.Correction:
-                // Ajouter le mot à corriger dans le message de sortie
-                output.add(cleaned);
-                answer.setType(AnswerType.Correction);
-                break;
-
-            case AnswerType.None:
-                // Le mot ne correspond à rien, il peut être suspect et sera analysé après
-                answer.setType(AnswerType.None);
-                safeWords.push(cleaned);
-                break;
+        if (type != null) {
+            // Notifier le message de sortie qu'un problem à été trouvée
+            problems.add(type);
+        } else {
+            // Le mot ne correspond à rien, il peut être suspect et sera analysé après
+            safeWords.push(cleaned);
         }
     }
 
     // L'utilisateur à ping le bot, on va donc prendre ça comme une provocation
-    if (pinged) {
-        output.provocate(true);
-        answer.setType(AnswerType.Provocation);
-    }
+    if (pinged) problems.add(Problem.Provocation);
 
     // Pour tous les mots qui sont safe, on les assemblent pour vérifier si
     // l'utilisateur n'essaie pas de trick le programme
-    if (findSuspectsWords(safeWords) == AnswerType.Trick) {
-        output.trick();
-        answer.setType(AnswerType.Trick);
-    }
+    if (findSuspectsWords(safeWords) == Problem.Trick)
+        problems.add(Problem.Trick);
 
+    // Vérification du nom de l'utilisateur
+    problems.add(checkUsername(from));
+
+    // Réponse à renvoyer
+    const answer = new Answer(input, problems);
+    // Message à renvoyer
+    const output = new Output(problems);
+
+    // On génère le message
     answer.message = output.compute();
     return answer;
 }
@@ -114,21 +105,32 @@ function cleanMessage(input: string): string {
 /**
  * Vérifier si un mot à besoin d'une correction ou est une violation
  * @param input Le mot à vérifier
- * @returns AnswerType
+ * @returns Problem
  */
-function validate(input: string): AnswerType {
-    if (isViolation(input)) return AnswerType.Violation;
-    if (needCorrection(input)) return AnswerType.Correction;
-    return AnswerType.None;
+function validate(input: string): Problem | null {
+    if (isViolation(input)) return Problem.Violation;
+    if (needCorrection(input)) return Problem.Correction;
+    return null;
+}
+
+/**
+ * Vérifier si le username ne pose de problèmes
+ * @param name Display name de l'expéditeur Discord
+ * @returns
+ */
+function checkUsername(name: string): Problem | null {
+    const words = name.split(' ').map((e) => cleanMessage(e));
+    if (findSuspectsWords(words) != null) return Problem.BadName;
+    return null;
 }
 
 /**
  * Fusionne les mots "suspects" à savoir trop court et sans problème
  * pour essayer de trouver une combinaison qui pourrait amener à un "theo"
  * @param input Liste des mots "safe"
- * @returns AnswerType
+ * @returns Problem
  */
-function findSuspectsWords(input: string[]): AnswerType {
+function findSuspectsWords(input: string[]): Problem | null {
     let merge = '';
 
     // Pour chaque mot
@@ -147,8 +149,7 @@ function findSuspectsWords(input: string[]): AnswerType {
         //* Les répétitions on déjà été nettoyée précedement
         if (merge.length == 4) {
             // La violation était "cachée" entre plusieurs mots
-            if (validate(merge) == AnswerType.Violation)
-                return AnswerType.Trick;
+            if (validate(merge) == Problem.Violation) return Problem.Trick;
         }
 
         if (w == undefined || merge == w) continue;
@@ -162,5 +163,5 @@ function findSuspectsWords(input: string[]): AnswerType {
         }
     }
 
-    return AnswerType.None;
+    return null;
 }
