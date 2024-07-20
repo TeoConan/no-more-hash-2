@@ -21,4 +21,5 @@ export default [
     [':sweat_drops:', 'o'],
     [':potable_water:', 'o'],
     [':axe:', 'h'],
+    ['theheo', 'theo'],
 ];
