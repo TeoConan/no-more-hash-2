@@ -44,11 +44,12 @@ function handleMessage(msg: Message | PartialMessage) {
         // Le message provient d'un bot ou est null, on skip
         if (msg.author == null || msg.content == null || msg.author.bot) return;
 
-        const answer = main(msg.content, msg.author.displayName);
+        // On envoie le message et le nickname
+        const answer = main(msg.content, msg.member?.nickname);
 
         // On traite la réponse et on emet une réaction si besoin
         const react = answer.getReaction();
-        if (react != '') msg.react(react);
+        if (react != '' && react != undefined) msg.react(react);
 
         // On renvoie une réponse dans le channel Discord
         if (answer.message != '') msg.reply(answer.message);

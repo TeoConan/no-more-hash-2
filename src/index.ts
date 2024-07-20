@@ -26,7 +26,10 @@ import { Problem, ProblemArray } from './problem';
  * @param from Auteur du message
  * @returns Problem
  */
-export default function main(input: string, from: string): Answer {
+export default function main(
+    input: string,
+    from: string | null | undefined
+): Answer {
     // Liste des mots qui seront re-traiter après
     const urlRegex = new RegExp(/^http(|s):\/\//);
     // Est-ce que le message mentionne le bot ?
@@ -68,7 +71,7 @@ export default function main(input: string, from: string): Answer {
         problems.add(Problem.Trick);
 
     // Vérification du nom de l'utilisateur
-    problems.add(checkUsername(from));
+    if (from != null) problems.add(checkUsername(from));
 
     // Réponse à renvoyer
     const answer = new Answer(input, problems);

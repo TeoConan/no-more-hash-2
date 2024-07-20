@@ -34,6 +34,9 @@ export class Answer {
 
             case Problem.BadName:
                 return '💩';
+
+            default:
+                return '';
         }
     }
 }
