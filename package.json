@@ -6,7 +6,7 @@
     "scripts": {
         "start": "node ./dist/test.js",
         "dev": "./node_modules/typescript/bin/tsc --project ./tsconfig.conf -w",
-        "build": "./node_modules/typescript/bin/tsc --project ./tsconfig.prod.conf && cp ./package*.json ./dist",
+        "build": "./node_modules/typescript/bin/tsc --project ./tsconfig.prod.conf",
         "prod": "pm2 start ./dist/discord.js --name nomorehash2"
     },
     "author": "",
