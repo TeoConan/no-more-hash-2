@@ -56,9 +56,8 @@ jobs:
                   TARGET: ${{ secrets.REMOTE_TARGET }}
                   EXCLUDE: '/node_modules/'
                   SCRIPT_AFTER: |
-                      echo $RSYNC_STDOUT
                       export PATH=$PATH:${{ secrets.REMOTE_NODE_BIN_FOLDER }}
+                      cd ${{ secrets.REMOTE_TARGET }}
                       npm i
-                      pwd >> debug.txt
                       pm2 stop nomorehash2
                       pm2 start ./discord.js --name nomorehash2
