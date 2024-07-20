@@ -59,4 +59,5 @@ jobs:
                       echo $RSYNC_STDOUT
                       export PATH=$PATH:${{ secrets.REMOTE_NODE_BIN_FOLDER }}
                       npm i
-                      pm2 restart nomorehash2
+                      pm2 stop nomorehash2
+                      pm2 start ./discord.js --name nomorehash2
