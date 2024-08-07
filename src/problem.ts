@@ -26,7 +26,9 @@ export class ProblemArray {
      * Obtenir le problème le plus "grave" de la liste
      * @returns Le problème le plus "grave"
      */
-    public getWorst(): Problem {
+    public getWorst(): Problem | null {
+        if (this.items.length == 0) return null;
+
         return this.items.reduce((acc, value) => {
             return Math.max(acc, value);
         }, this.items[0]);

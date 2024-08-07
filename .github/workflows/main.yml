@@ -39,6 +39,9 @@ jobs:
                   echo "APP_ID=${{ secrets.APP_ID }}" >> ./dist/.env
                   echo "CLIENT_TOKEN=${{ secrets.CLIENT_TOKEN }}" >> ./dist/.env
 
+            - name: Tests unitaires
+              run: npm run test
+
             - name: Upload de l'artefact
               uses: actions/upload-artifact@main
               with:
