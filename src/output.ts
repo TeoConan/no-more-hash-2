@@ -5,6 +5,14 @@ import tricks from './ressources/output/tricks';
 import provocations from './ressources/output/provocations';
 import name from './ressources/output/name';
 import { Problem, ProblemArray } from './problem';
+import Groq from 'groq-sdk';
+import aiContext from './ai/context';
+
+const aiClient = new Groq({
+    apiKey: process.env['GROQ_API_KEY'], // This is the default and can be omitted
+});
+
+const aiModel = process.env['GROQ_API_MODEL'];
 
 /**
  * La classe Output permet de générer un message semi-aléatoire
@@ -15,16 +23,47 @@ export class Output {
     private corrections: Array<string> = [];
     // Liste des problèmes du message
     public problems: ProblemArray;
+    private inputMessage: string;
 
-    constructor(problems: ProblemArray) {
+    constructor(problems: ProblemArray, input: string) {
         this.problems = problems;
+        this.inputMessage = input;
     }
 
     /**
      * Générer le message final à envoyer
      * @returns Le message final
      */
-    public compute(): string {
+    public async compute(): Promise<string> {
+        const chatCompletion = await aiClient.chat.completions
+            .create({
+                messages: [
+                    { role: 'system', content: aiContext },
+                    {
+                        role: 'user',
+                        content: this.inputMessage,
+                    },
+                ],
+                model: 'gemma2-9b-it',
+            })
+            .catch(async (err) => {
+                if (err instanceof Groq.APIError) {
+                    console.log('‼️ >> ' + this.inputMessage);
+                    console.log('‼️ -- ' + err.status);
+                    console.log('‼️ -- ' + err.name);
+                    console.log('‼️ -- ' + err.headers);
+                } else {
+                    throw err;
+                }
+            });
+
+        if (
+            chatCompletion &&
+            chatCompletion.choices[0].message.content != null
+        ) {
+            return chatCompletion.choices[0].message.content;
+        }
+
         const lines: Array<string> = [];
 
         // Afficher ou non un header pour la violation

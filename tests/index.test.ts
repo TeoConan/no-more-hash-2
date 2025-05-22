@@ -13,48 +13,56 @@ function truncate(str: string): string {
 
 describe('Testing negatives matches', () => {
     for (const n of negatives) {
-        test(`👍 : ${truncate(n)}`, () => {
-            expect(main(n, '').problems.getWorst()).toBe(null);
+        test(`👍 : ${truncate(n)}`, async () => {
+            expect((await main(n, '')).problems.getWorst()).toBe(null);
         });
     }
 });
 
 describe('Testing provocations', () => {
     for (const p of provocations) {
-        test(`🤓 : ${truncate(p)}`, () => {
-            expect(main(p, '').problems.getWorst()).toBe(Problem.Provocation);
+        test(`🤓 : ${truncate(p)}`, async () => {
+            expect((await main(p, '')).problems.getWorst()).toBe(
+                Problem.Provocation
+            );
         });
     }
 });
 
 describe('Testing tricks', () => {
     for (const t of tricks) {
-        test(`🤡 : ${truncate(t)}`, () => {
-            expect(main(t, '').problems.getWorst()).toBe(Problem.Trick);
+        test(`🤡 : ${truncate(t)}`, async () => {
+            expect((await main(t, '')).problems.getWorst()).toBe(Problem.Trick);
         });
     }
 });
 
 describe('Testing violations', () => {
     for (const v of violations) {
-        test(`😡 : ${truncate(v)}`, () => {
-            expect(main(v, '').problems.getWorst()).toBe(Problem.Violation);
+        test(`😡 : ${truncate(v)}`, async () => {
+            expect((await main(v, '')).problems.getWorst()).toBe(
+                Problem.Violation
+            );
         });
     }
 });
 
 describe('Testing corrections', () => {
     for (const c of correction) {
-        test(`😑 : ${truncate(c)}`, () => {
-            expect(main(c, '').problems.getWorst()).toBe(Problem.Correction);
+        test(`😑 : ${truncate(c)}`, async () => {
+            expect((await main(c, '')).problems.getWorst()).toBe(
+                Problem.Correction
+            );
         });
     }
 });
 
 describe('Testing bad names', () => {
     for (const b of badNames) {
-        test(`😡 : ${truncate(b)}`, () => {
-            expect(main('', b).problems.getWorst()).toBe(Problem.BadName);
+        test(`😡 : ${truncate(b)}`, async () => {
+            expect((await main('', b)).problems.getWorst()).toBe(
+                Problem.BadName
+            );
         });
     }
 });

@@ -15,6 +15,7 @@
     "dependencies": {
         "discord.js": "^14.15.3",
         "dotenv": "^16.4.5",
+        "groq-sdk": "^0.22.0",
         "typescript": "^5.3.3",
         "uglify-js": "^3.19.0",
         "uglifyjs-folder": "^3.3.0"

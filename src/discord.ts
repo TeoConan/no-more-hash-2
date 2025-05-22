@@ -31,7 +31,7 @@ client.on('messageCreate', async (msg) => {
 // Callback à l'update d'un message
 client.on('messageUpdate', async (oldMsg, newMsg) => {
     if (oldMsg.content === newMsg.content) return;
-    handleMessage(newMsg);
+    await handleMessage(newMsg);
 });
 
 /**
@@ -39,20 +39,25 @@ client.on('messageUpdate', async (oldMsg, newMsg) => {
  * @param msg Message à traiter
  * @returns
  */
-function handleMessage(msg: Message | PartialMessage) {
+async function handleMessage(msg: Message | PartialMessage) {
     try {
         // Le message provient d'un bot ou est null, on skip
         if (msg.author == null || msg.content == null || msg.author.bot) return;
 
         // On envoie le message et le nickname
-        const answer = main(msg.content, msg.member?.nickname);
+        const from = msg.member?.nickname ?? msg.author.globalName ?? '';
+        const answer = await main(msg.content, from);
+
+        // RAS, on skip
+        if (!answer.needAnswer()) return;
 
         // On traite la réponse et on emet une réaction si besoin
         const react = answer.getReaction();
-        if (react != '' && react != undefined) msg.react(react);
+        if (react != false) msg.react(react);
 
         // On renvoie une réponse dans le channel Discord
-        if (answer.message != '') msg.reply(answer.message);
+        const message = await answer.getMessage();
+        if (message != '') msg.reply(message);
     } catch (e) {
         console.error(e);
     }
