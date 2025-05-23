@@ -4,6 +4,8 @@ require('dotenv').config();
 import { Client, GatewayIntentBits, Message, PartialMessage } from 'discord.js';
 import main from '.';
 
+process.env['TESTING'] = '0';
+
 // Configuration des autorisations du client sur le channel
 const client = new Client({
     intents: [

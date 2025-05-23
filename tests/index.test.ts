@@ -7,6 +7,9 @@ import violations from './lists/violations';
 import correction from './lists/correction';
 import badNames from './lists/bad-names';
 
+// Désactiver groq pendant les tests
+process.env['TESTING'] = '1';
+
 function truncate(str: string): string {
     return str.length > 32 ? str.slice(0, 29) + '...' : str;
 }
