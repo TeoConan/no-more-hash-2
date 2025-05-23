@@ -2,9 +2,11 @@ import { Problem, ProblemArray } from './problem';
 import Groq from 'groq-sdk';
 import aiContext from './ai/context';
 
-const aiClient = new Groq({
-    apiKey: process.env['GROQ_API_KEY'], // This is the default and can be omitted
-});
+const aiClient = process.env['GROQ_API_KEY']
+    ? new Groq({
+          apiKey: process.env['GROQ_API_KEY'], // This is the default and can be omitted
+      })
+    : false;
 
 const aiModel:
     | (string & {})
@@ -97,6 +99,10 @@ export class Answer {
         if (process.env['TESTING'] == '1')
             return '(testing mode enabled) no ai message';
 
+        if (aiClient == false) {
+            return '(📵) ' + this.getSpareMessage();
+        }
+
         const chatCompletion = await aiClient.chat.completions
             .create({
                 messages: [
@@ -123,7 +129,7 @@ export class Answer {
                     console.log('‼️‼️‼️');
                 }
 
-                this.message = this.getSpareMessage();
+                this.message = '(❌) ' + this.getSpareMessage();
             });
 
         if (
@@ -137,7 +143,7 @@ export class Answer {
             console.log('‼️ -- Empty or malformed response object');
             console.log(chatCompletion);
             console.log('‼️‼️‼️');
-            this.message = this.getSpareMessage();
+            this.message = '(⁉️) ' + this.getSpareMessage();
             return this.message;
         }
     }
