@@ -1,6 +1,6 @@
 # No More Hash 2
 
-no-more-hash-2 est une petite application Discord qui permet d'envoyer un message aux utilisateurs lorsqu'ils écrivent "Théo" avec un "h"
+no-more-hash-2 est une petite application Discord qui permet d'insulter les utilisateurs lorsqu'ils écrivent "Théo" avec un "h"
 
 ⚠️ Ce projet ne fonctionne qu'avec le mot "théo" ⚠️
 
@@ -21,9 +21,11 @@ no-more-hash analyse les mots pour éviter des attaques par homoglyphes, hérit�
 -   Regroupement des mots "suspects" (ex: "t h e o" est regroupé en un seul mot "theo")
 -   Correction des mots contenant "theo" (ex: théorème, théorie...)
 
+Les message sont ensuite générés par IA pour envoyer une insulte appropriée
+
 ### Provocations
 
-Si l'utilisateur mentionne l'application, celle-ci répondra par gif ou des messages provocants
+Si l'utilisateur mentionne l'application, celle-ci répondra par des messages provocants
 
 ![Exemple 2](https://raw.githubusercontent.com/TeoConan/no-more-hash-2/main/.doc/exemple-2.png 'Provocations').
 
@@ -47,6 +49,8 @@ Vous aurez besoin d'un clé d'api Discord pour faire fonctionner le bot, vous po
 CLIENT_TOKEN=<api token>
 DEBUG=false
 APP_ID=<id utilisateur de votre bot discord>
+GROQ_API_KEY=<api key groq>
+GROQ_API_MODEL=meta-llama/llama-4-scout-17b-16e-instruct
 ```
 
 ## Utilisation
@@ -74,4 +78,4 @@ Et votre projet devrait réagir et répondre aux messages entrants sur les diff�
 
 ## Contribution
 
-Si vous avez des idées pour remplir les fichiers dans `./src/ressources/output`, n'hésitez pas à partager vos idées ou faire une pull request 🙂
+En cas de bugs, vous pouvez ouvrir un ticket ici : https://github.com/TeoConan/no-more-hash-2/issues

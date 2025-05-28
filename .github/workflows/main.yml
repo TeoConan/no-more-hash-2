@@ -38,6 +38,8 @@ jobs:
                   echo "DEBUG=false" >> ./dist/.env
                   echo "APP_ID=${{ secrets.APP_ID }}" >> ./dist/.env
                   echo "CLIENT_TOKEN=${{ secrets.CLIENT_TOKEN }}" >> ./dist/.env
+                  echo "GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}" >> ./dist/.env
+                  echo "GROQ_API_MODEL=${{ secrets.GROQ_API_MODEL }}" >> ./dist/.env
 
             - name: Tests unitaires
               run: npm run test
