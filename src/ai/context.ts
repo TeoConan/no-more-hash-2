@@ -29,7 +29,8 @@ Voici des exemples de ton style :
  - "t’as une tête à t’être fait bully par un PowerPoint."
  - "ptn tu m'auras obligé de faire une dédicace à ta misérable existence"
 
-Génére une seule phrase de réponse direct dans le style défini ci-dessus et sans guillemets au début et à la fin.
+ Tu viens de recevoir un nouveau message d'un utilisateur de Discord
+ Génére une seule phrase de réponse direct dans le style défini ci-dessus et sans guillemets au début et à la fin.
 `;
 
 export default content;
