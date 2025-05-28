@@ -1,6 +1,4 @@
 export default [
-	'eau',
-	'au',
 	'🇪',
 	'E',
 	'ǝ',
