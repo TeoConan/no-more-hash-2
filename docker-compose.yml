@@ -1,0 +1,14 @@
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        working_dir: /app
+        environment:
+            NODE_ENV: production
+            CLIENT_TOKEN: ${CLIENT_TOKEN}
+            DEBUG: ${DEBUG}
+            APP_ID: ${APP_ID}
+            GROQ_API_KEY: ${GROQ_API_KEY}
+            GROQ_API_MODEL: ${GROQ_API_MODEL}
+        restart: unless-stopped
